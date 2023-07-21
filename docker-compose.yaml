@@ -1,0 +1,30 @@
+version: "3"
+services:
+    frontend:
+      build: ./frontend
+      restart: always
+      ports:
+        - 3000:4343
+
+    backend:
+      build: ./backend
+      restart: always
+      depends_on:
+        - mongodb
+      ports:
+        - 4343:4343
+
+    mongodb:
+      image: mongo:5.0
+      restart: always
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=admin
+        - MONGO_INITDB_ROOT_PASSWORD=password
+        - MONGO_INITDB_DATABASE=books_i_read
+      volumes:
+        - mongodb_data:/data/db
+      ports:
+        - 27017:27017
+
+volumes:
+  mongodb_data:
